@@ -83,7 +83,17 @@
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" label="图片" >
           <el-row>
-            <el-col :span="14"><el-input v-model="form.image" width="100"/></el-col>
+            <el-col :span="14"><img :src="form.image" height="200px" width="200px"></el-col>
+            <el-upload
+              :http-request="picUpload"
+              class="upload-demo"
+              drag
+              action="/image"
+              multiple>
+              <i class="el-icon-upload"/>
+              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
           </el-row>
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" label="状态" >
@@ -106,8 +116,7 @@
 </template>
 
 <script>
-import { getGoodsList } from '@/api/goods'
-
+import { getGoodsList, upload } from '@/api/goods'
 export default {
   filters: {
     statusFilter(status) {
@@ -157,6 +166,15 @@ export default {
         this.total = parseInt(data.status)
         this.list = data.data
         this.listLoading = false
+      })
+    },
+    picUpload(file) {
+      const param = new FormData()
+      param.append('smfile', file.file)
+      param.append('file_id', '0')
+      upload(param).then(response => {
+        const data = response.data
+        this.form.image = data.url
       })
     },
     handleDelete(row) {

@@ -10,3 +10,11 @@ export function getGoodsList(curPage, curNum) {
     }
   })
 }
+export function upload(params) {
+  return request({
+    url: '/image',
+    method: 'post',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    data: params
+  })
+}

@@ -80,11 +80,22 @@
       </el-row>
 
     </div>
+    <el-upload
+      :http-request="picUpload"
+      class="upload-demo"
+      drag
+      action="/image"
+      multiple>
+      <i class="el-icon-upload"/>
+      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+    </el-upload>
   </div>
 </template>
 
 <script>
 import Header from '../common/header'
+import { upload } from '@/api/goods'
 export default {
   name: 'Index',
   components: {
@@ -98,6 +109,17 @@ export default {
         'https://image01.oneplus.cn/shop/201901/25/796/dddc1c2ac1fac2d70ea9d0472fdb6d65.jpg',
         'https://image01.oneplus.cn/shop/201811/05/1019/c74b8230e09be33bc3c2dfbd6d966c21.jpg'
       ]
+    }
+  },
+  methods: {
+    picUpload(file) {
+      const param = new FormData()
+      param.append('smfile', file.file)
+      param.append('file_id', '0')
+      upload(param).then(response => {
+        const data = response
+        console.log(data)
+      })
     }
   }
 }
