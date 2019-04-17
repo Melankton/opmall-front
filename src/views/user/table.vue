@@ -7,27 +7,27 @@
       border
       fit
       highlight-current-row>
-      <el-table-column align="center" label="用户ID" width="120">
+      <el-table-column align="center" label="用户ID" width="80">
         <template slot-scope="scope">
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="用户名" width="120">
+      <el-table-column label="用户名">
         <template slot-scope="scope">
           {{ scope.row.username }}
         </template>
       </el-table-column>
-      <el-table-column label="手机" width="150" align="center">
+      <el-table-column label="手机" width="120" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.phone }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="邮箱" width="220" align="center">
+      <el-table-column label="邮箱" width="200" align="center">
         <template slot-scope="scope">
           {{ scope.row.email }}
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="用户类型" width="180">
+      <el-table-column align="center" prop="created_at" label="用户类型" width="100">
         <template slot-scope="scope">
           <span v-if="scope.row.isadmin === '1'">管理员</span>
           <span v-else>普通用户</span>
