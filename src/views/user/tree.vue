@@ -1,76 +1,88 @@
 <template>
   <div class="app-container">
-    <el-input v-model="filterText" placeholder="Filter keyword" style="margin-bottom:30px;" />
-
-    <el-tree
-      ref="tree2"
-      :data="data2"
-      :props="defaultProps"
-      :filter-node-method="filterNode"
-      class="filter-tree"
-      default-expand-all
-    />
-
+    <el-form :model="form">
+      <el-form-item :label-width="formLabelWidth" label="用户名" >
+        <el-col :xs="12" :sm="10" :md="10" :lg="6" :xl="6">
+          <el-row>
+          <el-input v-model="form.username" /></el-row>
+        </el-col>
+      </el-form-item>
+      <el-form-item :label-width="formLabelWidth" label="密码" >
+        <el-col :xs="12" :sm="10" :md="10" :lg="6" :xl="6">
+          <el-row>
+          <el-input v-model="form.password" type="password"/></el-row>
+        </el-col>
+      </el-form-item>
+      <el-form-item :label-width="formLabelWidth" label="邮箱" >
+        <el-col :xs="12" :sm="10" :md="10" :lg="6" :xl="6">
+          <el-row>
+          <el-input v-model="form.email"/></el-row>
+        </el-col>
+      </el-form-item>
+      <el-form-item :label-width="formLabelWidth" label="电话" >
+        <el-col :xs="12" :sm="10" :md="10" :lg="6" :xl="6">
+          <el-row>
+          <el-input v-model="form.phone"/></el-row>
+        </el-col>
+      </el-form-item>
+      <el-form-item :label-width="formLabelWidth" label="用户类别" >
+        <el-col :xs="12" :sm="10" :md="10" :lg="6" :xl="6">
+          <el-row>
+            <el-select v-model="form.isadmin" placeholder="请选择用户类型">
+              <el-option label="管理员" value="1"/>
+              <el-option label="普通用户" value="0"/>
+            </el-select>
+        </el-row></el-col>
+      </el-form-item>
+      <el-form-item :label-width="formLabelWidth" label="" >
+        <el-col :xs="12" :sm="10" :md="10" :lg="6" :xl="6">
+          <el-row>
+            <el-button type="primary" @click="submitUserForm">添加用户</el-button>
+        </el-row></el-col>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
+import { addUser } from '@/api/user'
 export default {
 
   data() {
     return {
       filterText: '',
-      data2: [{
-        id: 1,
-        label: 'Level one 1',
-        children: [{
-          id: 4,
-          label: 'Level two 1-1',
-          children: [{
-            id: 9,
-            label: 'Level three 1-1-1'
-          }, {
-            id: 10,
-            label: 'Level three 1-1-2'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: 'Level one 2',
-        children: [{
-          id: 5,
-          label: 'Level two 2-1'
-        }, {
-          id: 6,
-          label: 'Level two 2-2'
-        }]
-      }, {
-        id: 3,
-        label: 'Level one 3',
-        children: [{
-          id: 7,
-          label: 'Level two 3-1'
-        }, {
-          id: 8,
-          label: 'Level two 3-2'
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
+      formLabelWidth: '100px',
+      form: {
+        username: '',
+        phone: '',
+        email: '',
+        password: '',
+        isadmin: ''
       }
     }
   },
-  watch: {
-    filterText(val) {
-      this.$refs.tree2.filter(val)
-    }
-  },
+  watch: {},
 
   methods: {
-    filterNode(value, data) {
-      if (!value) return true
-      return data.label.indexOf(value) !== -1
+    submitUserForm() {
+      addUser(this.form).then(response => {
+        const data = response
+        if (data.status === '200') {
+          this.success('添加用户成功')
+          this.form.username = ''
+          this.form.password = ''
+          this.form.email = ''
+          this.form.phone = ''
+          this.form.isadmin = ''
+        }
+      })
+    },
+    success(value) {
+      this.$notify({
+        title: '成功',
+        message: value,
+        type: 'success'
+      })
     }
   }
 }

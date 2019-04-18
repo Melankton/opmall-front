@@ -22,7 +22,9 @@
               <el-card class="box-card" style="text-align:center" shadow="hover">
                 <img
                   :src="goods.image"
-                  alt="">
+                  alt=""
+                  width="200px"
+                  height="200px">
                 <br>
                 <span>{{ goods.title }}</span>
                 <br>

@@ -18,3 +18,23 @@ export function upload(params) {
     data: params
   })
 }
+export function deleteCat(form) {
+  return request({
+    url: '/api/goodsCat/deleteCat',
+    method: 'post',
+    data: {
+      id: form.id
+    }
+  })
+}
+
+export function modifyCat(form) {
+  return request({
+    url: '/api/goodsCat/modifyCat',
+    method: 'post',
+    data: {
+      id: form.id,
+      text: form.text
+    }
+  })
+}

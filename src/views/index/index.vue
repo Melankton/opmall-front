@@ -4,7 +4,7 @@
     <div>
       <el-carousel :interval="5000" arrow="always" height="650px">
         <el-carousel-item v-for="item in carousel" :key="item">
-          <h3><img :src="item"></h3>
+          <h3><img :src="item" height="100%"></h3>
         </el-carousel-item>
       </el-carousel>
       <div style="margin-top: 30px"/>
@@ -80,16 +80,6 @@
       </el-row>
 
     </div>
-    <el-upload
-      :http-request="picUpload"
-      class="upload-demo"
-      drag
-      action="/image"
-      multiple>
-      <i class="el-icon-upload"/>
-      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-    </el-upload>
   </div>
 </template>
 
@@ -105,9 +95,9 @@ export default {
     return {
       currentDate: new Date(),
       carousel: [
-        'https://image01.oneplus.cn/shop/201901/25/1079/2377762d17e6978bc64b2932c3927a56.jpg',
+        'https://image01.oneplus.cn/shop/201811/05/1019/c74b8230e09be33bc3c2dfbd6d966c21.jpg',
         'https://image01.oneplus.cn/shop/201901/25/796/dddc1c2ac1fac2d70ea9d0472fdb6d65.jpg',
-        'https://image01.oneplus.cn/shop/201811/05/1019/c74b8230e09be33bc3c2dfbd6d966c21.jpg'
+        'https://resource.smartisan.com/resource/2/2240X1108R1web1.png?x-oss-process=image/format,jpg/quality,Q_100'
       ]
     }
   },

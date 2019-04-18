@@ -32,3 +32,16 @@ export function deleteUser(userInfo) {
     }
   })
 }
+export function addUser(userInfo) {
+  return request({
+    url: '/sso/user/addUser',
+    method: 'post',
+    data: {
+      isadmin: userInfo.isadmin,
+      username: userInfo.username,
+      email: userInfo.email,
+      phone: userInfo.phone,
+      password: userInfo.password
+    }
+  })
+}

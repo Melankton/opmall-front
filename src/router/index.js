@@ -61,6 +61,27 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/goodscat',
+    component: Layout,
+    redirect: '/goodscat/table',
+    name: 'goodscat',
+    meta: { title: '类别管理', icon: 'table' },
+    children: [
+      {
+        path: 'table',
+        name: 'goodsCatTable',
+        component: () => import('@/views/table/goodsCatList'),
+        meta: { title: '类别列表', icon: 'table' }
+      },
+      {
+        path: 'tree',
+        name: 'goodsCatTree',
+        component: () => import('@/views/tree/goodsCatAdd'),
+        meta: { title: '类别添加', icon: 'table' }
+      }
+    ]
+  },
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
