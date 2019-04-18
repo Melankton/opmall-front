@@ -56,7 +56,7 @@ export default {
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['C++', 'C', 'Python', 'Java', 'Others']
+          data: ['手机', '耳机', '壳/膜', '适配器/数据线', '生活馆']
         },
         calculable: true,
         series: [
@@ -67,11 +67,11 @@ export default {
             radius: [15, 95],
             center: ['50%', '38%'],
             data: [
-              { value: 320, name: 'C++' },
-              { value: 240, name: 'C' },
-              { value: 149, name: 'Python' },
-              { value: 100, name: 'Java' },
-              { value: 59, name: 'Others' }
+              { value: 320, name: '手机' },
+              { value: 240, name: '耳机' },
+              { value: 149, name: '壳/膜' },
+              { value: 100, name: '适配器/数据线' },
+              { value: 59, name: '生活馆' }
             ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600

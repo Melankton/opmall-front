@@ -72,18 +72,18 @@ export default {
             }
           },
           indicator: [
-            { name: 'Sales', max: 10000 },
-            { name: 'Administration', max: 20000 },
-            { name: 'Information Techology', max: 20000 },
-            { name: 'Customer Support', max: 20000 },
-            { name: 'Development', max: 20000 },
-            { name: 'Marketing', max: 20000 }
+            { name: 'OPPO', max: 10000 },
+            { name: 'Smartisian', max: 20000 },
+            { name: '华为', max: 20000 },
+            { name: 'Apple', max: 20000 },
+            { name: '小米', max: 20000 },
+            { name: 'Oneplus', max: 20000 }
           ]
         },
         legend: {
           left: 'center',
           bottom: '10',
-          data: ['Allocated Budget', 'Expected Spending', 'Actual Spending']
+          data: ['季度销量', '月销量', '周销量']
         },
         series: [{
           type: 'radar',
@@ -100,15 +100,15 @@ export default {
           data: [
             {
               value: [5000, 7000, 12000, 11000, 15000, 14000],
-              name: 'Allocated Budget'
+              name: '季度销量'
             },
             {
               value: [4000, 9000, 15000, 15000, 13000, 11000],
-              name: 'Expected Spending'
+              name: '月销量'
             },
             {
               value: [5500, 11000, 12000, 15000, 12000, 12000],
-              name: 'Actual Spending'
+              name: '周销量'
             }
           ],
           animationDuration: animationDuration
