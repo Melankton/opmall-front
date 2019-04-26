@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="head">
     <el-row>
       <el-col :span="4">
         <div class="grid-content"/>
@@ -95,6 +95,9 @@ export default {
 </script>
 
 <style scoped>
+  .head {
+    background-color: #f1f1f1;
+  }
   a:link, a:visited, a:hover, a:active {
     text-decoration: none;
     color: #909399;
