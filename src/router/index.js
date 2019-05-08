@@ -187,7 +187,15 @@ export const constantRouterMap = [
 
   { path: '*', redirect: '/404', hidden: true }
 ]
-
+// 动态加载页面
+export const asyncRouterMap = [
+  {
+    path: '/permission',
+    component: Layout,
+    name: '权限测试',
+    meta: { role: ['admin'] }
+  }
+]
 export default new Router({
   // mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),

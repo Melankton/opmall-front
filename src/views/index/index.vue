@@ -45,12 +45,12 @@
           </section>
         </div></el-col>
       </el-row>
-      <!--      分类-->
+      <!--      手机-->
       <el-row :gutter="0" style="margin-top: 20px">
         <el-col :sm="4" :md="4" :lg="4" :xl="4"><div class="grid-content bg-purple"/></el-col>
         <el-col :xs="24" :sm="24" :md="24" :lg="16" :xl="16"><div class="grid-content">
           <section class="w clearfix">
-            <y-shelf title="热门商品">
+            <y-shelf title="手机">
               <div slot="content" class="floors" >
                 <div v-for="goodsCat in goodsCats" :key="goodsCat.text" class="good-item">
                   <div>

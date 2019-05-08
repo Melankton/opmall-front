@@ -1,7 +1,7 @@
 <template>
   <div class="gray-box">
     <div class="title">
-      <h2>热销商品</h2>
+      <h2>{{ title }}</h2>
       <div>
         <slot name="right"/>
       </div>
@@ -14,6 +14,9 @@
 </template>
 <script>
 export default {
+  props: {
+    title: { type: String, default: '' }
+  }
 }
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
