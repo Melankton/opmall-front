@@ -9,7 +9,7 @@
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" label="关键词" >
           <el-row>
-            <el-col :span="14"><el-input v-model="form.keyword" width="100"/></el-col>
+            <el-col :span="14"><el-input v-model="form.keyword" width="100" placeholder="关键词用空格隔开"/></el-col>
           </el-row>
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" label="价格" >
@@ -20,11 +20,6 @@
         <el-form-item :label-width="formLabelWidth" label="数量" >
           <el-row>
             <el-col :span="14"><el-input v-model="form.num" width="100"/></el-col>
-          </el-row>
-        </el-form-item>
-        <el-form-item :label-width="formLabelWidth" label="条形码" >
-          <el-row>
-            <el-col :span="14"><el-input v-model="form.barcode" width="100"/></el-col>
           </el-row>
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" label="图片" >
@@ -54,6 +49,16 @@
             <el-col :span="14"><el-input v-model="form.cid" width="100"/></el-col>
           </el-row>
         </el-form-item>
+        <el-form-item :label-width="formLabelWidth" label="商品内容">
+          <el-row>
+            <editor :catch-data="catchData" :content="form.content"/>
+          </el-row>
+        </el-form-item>
+        <el-form-item>
+          <el-row>
+            <el-button type="primary" @click="submitEdit">确 定</el-button>
+          </el-row>
+        </el-form-item>
       </el-form>
     </el-col>
   </div>
@@ -61,8 +66,11 @@
 
 <script>
 import { upload } from '@/api/goods'
+import editor from '@/components/WangEditor/wangeditor'
 export default {
-
+  components: {
+    editor
+  },
   data() {
     return {
       filterText: '',
@@ -83,6 +91,9 @@ export default {
   watch: {
   },
   methods: {
+    submitEdit() {
+      console.log(this.form)
+    },
     picUpload(file) {
       const param = new FormData()
       param.append('smfile', file.file)
@@ -91,7 +102,11 @@ export default {
         const data = response.data
         this.form.image = data.url
       })
+    },
+    catchData(value) {
+      this.form.barcode = value
     }
+
   }
 }
 </script>

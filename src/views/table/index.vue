@@ -76,11 +76,6 @@
             <el-col :span="14"><el-input v-model="form.num" width="100"/></el-col>
           </el-row>
         </el-form-item>
-        <el-form-item :label-width="formLabelWidth" label="条形码" >
-          <el-row>
-            <el-col :span="14"><el-input v-model="form.barcode" width="100"/></el-col>
-          </el-row>
-        </el-form-item>
         <el-form-item :label-width="formLabelWidth" label="图片" >
           <el-row>
             <el-col :span="14"><img :src="form.image" height="200px" width="200px"></el-col>
@@ -106,6 +101,11 @@
             <el-col :span="14"><el-input v-model="form.cid" width="100"/></el-col>
           </el-row>
         </el-form-item>
+        <el-form-item :label-width="formLabelWidth" label="商品内容">
+          <el-row>
+            <editor :catch-data="catchData" :content="form.barcode"/>
+          </el-row>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -117,7 +117,11 @@
 
 <script>
 import { getGoodsList, upload } from '@/api/goods'
+import editor from '@/components/WangEditor/wangeditor'
 export default {
+  components: {
+    editor
+  },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -148,6 +152,7 @@ export default {
         keyword: '',
         price: '',
         num: '',
+        content: '',
         barcode: '',
         image: '',
         status: '',
@@ -167,6 +172,9 @@ export default {
         this.list = data.data
         this.listLoading = false
       })
+    },
+    catchData(value) {
+      this.form.barcode = value
     },
     picUpload(file) {
       const param = new FormData()
