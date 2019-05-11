@@ -93,12 +93,19 @@
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" label="状态" >
           <el-row>
-            <el-col :span="14"><el-input v-model="form.status" width="100"/></el-col>
+            <el-col :span="14">
+              <el-select v-model="form.status" placeholder="请选择商品状态">
+                <el-option label="在售" value="1"/>
+                <el-option label="禁用" value="0"/>
+              </el-select>
+            </el-col>
           </el-row>
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" label="类别" >
           <el-row>
-            <el-col :span="14"><el-input v-model="form.cid" width="100"/></el-col>
+            <el-cascader
+              :options="goodsCatlist"
+              v-model="form.cid"/>
           </el-row>
         </el-form-item>
         <el-form-item :label-width="formLabelWidth" label="商品内容">
@@ -117,6 +124,7 @@
 
 <script>
 import { getGoodsList, upload } from '@/api/goods'
+import { getNavList } from '@/api/index'
 import editor from '@/components/WangEditor/wangeditor'
 export default {
   components: {
@@ -134,6 +142,7 @@ export default {
   },
   data() {
     return {
+      goodsCatlist: {},
       list: null,
       listLoading: true,
       currentPage1: 5,
@@ -156,7 +165,9 @@ export default {
         barcode: '',
         image: '',
         status: '',
-        cid: ''
+        cid: [],
+        parcid: '',
+        childcid: ''
       }
     }
   },
@@ -172,6 +183,27 @@ export default {
         this.list = data.data
         this.listLoading = false
       })
+      getNavList().then(response => {
+        this.goodsCatlist = response
+        const goodsCats = []
+        for (let i = 0; i < this.goodsCatlist.length; i++) {
+          const goodsCat = {
+            'value': this.goodsCatlist[i].id,
+            'label': this.goodsCatlist[i].text,
+            'children': []
+          }
+          for (let j = 0; j < this.goodsCatlist[i].child.length; j++) {
+            const item = {
+              'value': this.goodsCatlist[i].child[j].id,
+              'label': this.goodsCatlist[i].child[j].text
+            }
+            goodsCat['children'].push(item)
+          }
+          goodsCats.push(goodsCat)
+        }
+        this.goodsCatlist = goodsCats
+        console.log(this.goodsCatlist)
+      })
     },
     catchData(value) {
       this.form.barcode = value
@@ -185,11 +217,19 @@ export default {
         this.form.image = data.url
       })
     },
+    handleChange() {
+      console.log(this.goodsCatlist)
+    },
     handleDelete(row) {
       this.dialogVisibleDelete = true
       this.form.id = row.id
     },
-    submitUserForm() {},
+    submitUserForm() {
+      this.form.parcid = this.form.cid[0]
+      this.form.childcid = this.form.cid[1]
+      console.log(this.form)
+      this.dialogFormVisible = false
+    },
     handleEdit(row) {
       this.dialogFormVisible = true
       this.form.id = row.id
@@ -200,7 +240,7 @@ export default {
       this.form.barcode = row.barcode
       this.form.image = row.image
       this.form.status = row.status
-      this.form.cid = row.cid
+      this.form.cid = []
     },
     success(value) {
       this.$notify({
