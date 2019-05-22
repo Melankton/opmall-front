@@ -23,11 +23,13 @@ import Layout from '../views/layout/Layout'
   }
 **/
 export const constantRouterMap = [
+  { path: '/home', component: () => import('@/views/home/index'), hidden: true },
   { path: '/login', component: () => import('@/views/login/login'), hidden: true },
   { path: '/register', component: () => import('@/views/login/register'), hidden: true },
   { path: '/index', component: () => import('@/views/index/index'), hidden: true },
   { path: '/goodsCat', component: () => import('@/views/goods/goodsCat'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
+  { path: '/goodsSearch', component: () => import('@/views/goods/goodsSearch'), hidden: true },
   {
     path: '/',
     component: Layout,
@@ -49,13 +51,13 @@ export const constantRouterMap = [
       {
         path: 'table',
         name: 'userTable',
-        component: () => import('@/views/user/table'),
+        component: () => import('@/views/admin/user/table'),
         meta: { title: '用户列表', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'userTree',
-        component: () => import('@/views/user/tree'),
+        path: 'add',
+        name: 'userAdd',
+        component: () => import('@/views/admin/user/add'),
         meta: { title: '添加用户', icon: 'table' }
       }
     ]
@@ -70,34 +72,34 @@ export const constantRouterMap = [
       {
         path: 'table',
         name: 'goodsCatTable',
-        component: () => import('@/views/table/goodsCatList'),
+        component: () => import('@/views/admin/goodsCat/table'),
         meta: { title: '类别列表', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'goodsCatTree',
-        component: () => import('@/views/tree/goodsCatAdd'),
+        path: 'add',
+        name: 'goodsCatAdd',
+        component: () => import('@/views/admin/goodsCat/add'),
         meta: { title: '类别添加', icon: 'table' }
       }
     ]
   },
   {
-    path: '/example',
+    path: '/goods',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
+    redirect: '/goods/table',
+    name: 'Goods',
     meta: { title: '商品管理', icon: 'goods' },
     children: [
       {
         path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
+        name: 'goodsTable',
+        component: () => import('@/views/admin/goods/table'),
         meta: { title: '商品列表', icon: 'table' }
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
+        path: 'add',
+        name: 'goodsAdd',
+        component: () => import('@/views/admin/goods/add'),
         meta: { title: '商品添加', icon: 'tree' }
       }
     ]

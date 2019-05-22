@@ -23,6 +23,11 @@ module.exports = {
       '/image': {
         target: 'https://sm.ms/api/upload?inajax=1&ssl=1',
         changeOrigin: true
+      },
+      '/search': {
+        target: 'http://localhost:8894',
+        changeOrigin: true,
+        pathRewrite: {'/search' : '/search'}
       }
     },
 

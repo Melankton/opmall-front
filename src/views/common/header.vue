@@ -54,9 +54,32 @@
                   background-color="#f1f1f1"
                   text-color="#909399"
                   active-text-color="#ec1f23">
-                  <el-menu-item index="8">搜索</el-menu-item>
-                  <el-menu-item index="9">购物车</el-menu-item>
-                  <el-menu-item index="/"><router-link to="/">用户</router-link></el-menu-item>
+                  <el-menu-item index="/search">
+                    <el-dropdown :hide-on-click="false" :hide-timeout="300">
+                      <span class="el-dropdown-link">
+                        <a @click="search">搜索</a><i class="el-icon-arrow-down el-icon--right"/>
+                      </span>
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>
+                          <el-input v-model="input" placeholder="请输入内容" style="width: 100%"/>
+                        </el-dropdown-item>
+                      </el-dropdown-menu>
+                    </el-dropdown>
+                  </el-menu-item>
+                  <el-menu-item index="9">
+                    <el-popover
+                      placement="top"
+                      width="600"
+                      trigger="click">
+                      <el-table :data="gridData">
+                        <el-table-column width="150" property="date" label="日期"/>
+                        <el-table-column width="100" property="name" label="姓名"/>
+                        <el-table-column width="300" property="address" label="地址"/>
+                      </el-table>
+                      <span slot="reference">购物车</span>
+                    </el-popover>
+                  </el-menu-item>
+                  <el-menu-item index="/login"><router-link to="/login">用户</router-link></el-menu-item>
                 </el-menu>
               </div>
             </el-col>
@@ -75,6 +98,40 @@ export default {
   name: 'Header',
   data() {
     return {
+      gridData: [{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-03',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }],
+      visible2: false,
       goodsCatlist: {},
       input: '',
       activeIndex: '1',
@@ -87,6 +144,12 @@ export default {
     })
   },
   methods: {
+    search() {
+      if (this.input !== '') {
+        const keyword = this.input
+        this.$router.push({ path: '/goodsSearch', query: { keyword }})
+      }
+    },
     test(goodsCatChild) {
       this.$router.push({ path: '/goodsCat', query: { goodsCatChild }})
     }
@@ -110,5 +173,8 @@ export default {
   .grid-content {
     background-color: #f1f1f1;
     min-height: 60px;
+  }
+  .el-input__inner {
+    background-color: #f1f1f1;
   }
 </style>

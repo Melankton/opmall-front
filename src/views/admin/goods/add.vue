@@ -31,6 +31,16 @@
             </el-col>
           </el-row>
         </el-form-item>
+        <el-form-item :label-width="formLabelWidth" label="状态" >
+          <el-row>
+            <el-col :span="14">
+              <el-select v-model="form.status" placeholder="请选择商品状态">
+                <el-option label="在售" value="1" />
+                <el-option label="禁用" value="0" />
+              </el-select>
+            </el-col>
+          </el-row>
+        </el-form-item>
         <el-form-item :label-width="formLabelWidth" label="图片" >
           <el-row>
             <el-col :span="14"><img :src="form.image" height="200px" width="200px"></el-col>
@@ -45,16 +55,6 @@
                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                 <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
               </el-upload>
-            </el-col>
-          </el-row>
-        </el-form-item>
-        <el-form-item :label-width="formLabelWidth" label="状态" >
-          <el-row>
-            <el-col :span="14">
-              <el-select v-model="form.status" placeholder="请选择商品状态">
-                <el-option label="在售" value="1" />
-                <el-option label="禁用" value="0" />
-              </el-select>
             </el-col>
           </el-row>
         </el-form-item>

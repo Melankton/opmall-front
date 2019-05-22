@@ -55,6 +55,7 @@
 import Vue from 'vue'
 import VueParticles from 'vue-particles'
 Vue.use(VueParticles)
+import { getInfo } from '@/api/login'
 export default {
   data() {
     var usernameCheck = (rule, value, callback) => {
@@ -94,7 +95,13 @@ export default {
           this.loading = true
           this.$store.dispatch('Login', this.userForm).then((response) => {
             if (response.status === 200) {
-              this.$router.push({ path: this.redirect || '/' })
+              getInfo(response.data).then(response => {
+                if (response.data.isadmin === '1') {
+                  this.$router.push({ path: this.redirect || '/' })
+                } else {
+                  this.$router.push({ path: this.redirect || '/home' })
+                }
+              })
               this.success('账号登录成功')
             } else {
               this.loading = false

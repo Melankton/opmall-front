@@ -38,3 +38,15 @@ export function modifyCat(form) {
     }
   })
 }
+
+export function search(form) {
+  return request({
+    url: '/search',
+    method: 'post',
+    data: {
+      queryString: form.keyword,
+      page: form.page,
+      rows: form.rows
+    }
+  })
+}

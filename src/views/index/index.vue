@@ -113,7 +113,7 @@ export default {
   },
   mounted() {
     getGoodsByCatId(1195, 8, 1).then(response => {
-      this.goodsCats = response
+      this.goodsCats = response.data
     })
   },
   methods: {

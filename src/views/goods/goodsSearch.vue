@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { getGoodsByCatId } from '@/api/index'
+import { search } from '@/api/goods'
 import Header from '../common/header'
 import YShelf from '../common/shelf'
 import YButton from '../common/YButton'
@@ -72,35 +72,35 @@ export default {
       total: 8,
       goodsCats: {},
       params: {
-        goodsCatId: this.$route.query.goodsCatChild.id,
-        nums: 8,
+        keyword: this.$route.query.keyword,
+        rows: 8,
         page: 1
       }
     }
   },
   watch: {
     '$route'() {
-      this.params.goodsCatId = this.$route.query.goodsCatChild.id
-      this.goodsCatInit(this.params)
+      this.params.keyword = this.$route.query.keyword
+      this.goodsSearchInit(this.params)
     }
   },
   mounted() {
-    this.goodsCatInit(this.params)
+    this.goodsSearchInit(this.params)
   },
   methods: {
-    goodsCatInit: function(params) {
-      getGoodsByCatId(params.goodsCatId, params.nums, params.page).then(response => {
-        this.goodsCats = response.data
-        this.total = parseInt(response.status)
+    goodsSearchInit: function(params) {
+      search(params).then(response => {
+        this.goodsCats = response.itemList
+        this.total = parseInt(response.recordCount)
       })
     },
     handleSizeChange(val) {
-      this.params.nums = val
-      this.goodsCatInit(this.params)
+      this.params.rows = val
+      this.goodsSearchInit(this.params)
     },
     handleCurrentChange(val) {
       this.params.page = val
-      this.goodsCatInit(this.params)
+      this.goodsSearchInit(this.params)
     }
   }
 }
