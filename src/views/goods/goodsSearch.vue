@@ -20,14 +20,9 @@
                   <div class="good-price pr">
                     <div class="ds pa">
                       <router-link :to="'goodsDetails?productId='+goodsCat.id">
-                        <y-button text="查看详情" style="margin: 0 5px"/>
+                        <el-button type="primary" size="mini" style="margin: 15px" >查看详情</el-button>
                       </router-link>
-                      <y-button
-                        text="加入购物车"
-                        style="margin: 0 5px"
-                        class-style="main-btn"
-                        @btnClick="addCart(goodsCat.id,goodsCat.price,goodsCat.title,goodsCat.image)"
-                      />
+                      <el-button type="primary" size="mini" icon="el-icon-shopping-cart" @click="addCart(goodsCat.id,goodsCat.title,goodsCat.price)">加入购物车</el-button>
                     </div>
                     <p><span style="font-size: 16px">￥</span>
                       {{ goodsCat.price }}</p>
@@ -88,6 +83,23 @@ export default {
     this.goodsSearchInit(this.params)
   },
   methods: {
+    addCart(id, title, price) {
+      const item = {
+        id: id,
+        title: title,
+        price: price,
+        num: 1
+      }
+      this.$store.dispatch('add', item)
+      this.success('添加到购物车成功')
+    },
+    success(value) {
+      this.$notify({
+        title: '成功',
+        message: value,
+        type: 'success'
+      })
+    },
     goodsSearchInit: function(params) {
       search(params).then(response => {
         this.goodsCats = response.itemList

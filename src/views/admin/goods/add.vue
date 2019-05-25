@@ -2,27 +2,35 @@
   <div class="app-container">
     <el-col :span="14">
       <el-form :model="form">
-        <el-form-item :label-width="formLabelWidth" label="商品名" >
+        <el-form-item :label-width="formLabelWidth" label="商品名">
           <el-row>
-            <el-col :span="14"><el-input v-model="form.title" width="100"/></el-col>
+            <el-col :span="14">
+              <el-input v-model="form.title" width="100"/>
+            </el-col>
           </el-row>
         </el-form-item>
-        <el-form-item :label-width="formLabelWidth" label="关键词" >
+        <el-form-item :label-width="formLabelWidth" label="关键词">
           <el-row>
-            <el-col :span="14"><el-input v-model="form.keyword" width="100" placeholder="关键词用空格隔开"/></el-col>
+            <el-col :span="14">
+              <el-input v-model="form.keyword" width="100" placeholder="关键词用空格隔开"/>
+            </el-col>
           </el-row>
         </el-form-item>
-        <el-form-item :label-width="formLabelWidth" label="价格" >
+        <el-form-item :label-width="formLabelWidth" label="价格">
           <el-row>
-            <el-col :span="14"><el-input v-model="form.price" width="100"/></el-col>
+            <el-col :span="14">
+              <el-input v-model="form.price" width="100"/>
+            </el-col>
           </el-row>
         </el-form-item>
-        <el-form-item :label-width="formLabelWidth" label="数量" >
+        <el-form-item :label-width="formLabelWidth" label="数量">
           <el-row>
-            <el-col :span="14"><el-input v-model="form.num" width="100"/></el-col>
+            <el-col :span="14">
+              <el-input v-model="form.num" width="100"/>
+            </el-col>
           </el-row>
         </el-form-item>
-        <el-form-item :label-width="formLabelWidth" label="类别" >
+        <el-form-item :label-width="formLabelWidth" label="类别">
           <el-row>
             <el-col :span="14">
               <el-cascader
@@ -31,17 +39,17 @@
             </el-col>
           </el-row>
         </el-form-item>
-        <el-form-item :label-width="formLabelWidth" label="状态" >
+        <el-form-item :label-width="formLabelWidth" label="状态">
           <el-row>
             <el-col :span="14">
               <el-select v-model="form.status" placeholder="请选择商品状态">
-                <el-option label="在售" value="1" />
-                <el-option label="禁用" value="0" />
+                <el-option label="在售" value="1"/>
+                <el-option label="禁用" value="0"/>
               </el-select>
             </el-col>
           </el-row>
         </el-form-item>
-        <el-form-item :label-width="formLabelWidth" label="图片" >
+        <el-form-item :label-width="formLabelWidth" label="图片">
           <el-row>
             <el-col :span="14"><img :src="form.image" height="200px" width="200px"></el-col>
             <el-col :span="14">
@@ -74,9 +82,10 @@
 </template>
 
 <script>
-import { upload } from '@/api/goods'
+import { upload, addGoods } from '@/api/goods'
 import { getNavList } from '@/api/index'
 import editor from '@/components/WangEditor/wangeditor'
+
 export default {
   components: {
     editor
@@ -101,8 +110,7 @@ export default {
       }
     }
   },
-  watch: {
-  },
+  watch: {},
   created() {
     this.fetchData()
   },
@@ -132,7 +140,11 @@ export default {
     submitEdit() {
       this.form.parcid = this.form.cid[0]
       this.form.childcid = this.form.cid[1]
-      console.log(this.form)
+      addGoods(this.form).then(response => {
+        if (response.status === '200') {
+          this.success('商品添加成功!')
+        }
+      })
     },
     picUpload(file) {
       const param = new FormData()
@@ -145,6 +157,13 @@ export default {
     },
     catchData(value) {
       this.form.barcode = value
+    },
+    success(value) {
+      this.$notify({
+        title: '成功',
+        message: value,
+        type: 'success'
+      })
     }
 
   }

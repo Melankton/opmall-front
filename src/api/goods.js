@@ -50,3 +50,54 @@ export function search(form) {
     }
   })
 }
+export function addGoods(form) {
+  return request({
+    url: '/item/add',
+    method: 'post',
+    data: {
+      barcode: form.barcode,
+      childcid: form.childcid,
+      parcid: form.parcid,
+      image: form.image,
+      keyword: form.keyword,
+      num: form.num,
+      status: form.status,
+      title: form.title,
+      price: form.price
+    }
+  })
+}
+export function modifyGoods(form) {
+  return request({
+    url: '/item/add',
+    method: 'post',
+    data: {
+      barcode: form.barcode,
+      childcid: form.childcid,
+      parcid: form.parcid,
+      image: form.image,
+      keyword: form.keyword,
+      num: form.num,
+      status: form.status,
+      title: form.title,
+      price: form.price,
+      id: form.id
+    }
+  })
+}
+export function deleteGoods(form) {
+  return request({
+    url: '/item/delete',
+    method: 'post',
+    data: {
+      id: form.id
+    }
+  })
+}
+
+export function getGoodsById(id) {
+  return request({
+    url: '/item/' + id,
+    method: 'get'
+  })
+}

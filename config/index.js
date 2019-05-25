@@ -20,6 +20,11 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {'/api/goods' : '/api/goods'}
       },
+      '/item': {
+        target: 'http://127.0.0.1:8888',
+        changeOrigin: true,
+        pathRewrite: {'/item/add' : '/item/add'}
+      },
       '/image': {
         target: 'https://sm.ms/api/upload?inajax=1&ssl=1',
         changeOrigin: true

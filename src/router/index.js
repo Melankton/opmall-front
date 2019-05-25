@@ -23,10 +23,19 @@ import Layout from '../views/layout/Layout'
   }
 **/
 export const constantRouterMap = [
-  { path: '/home', component: () => import('@/views/home/index'), hidden: true },
+  { path: '/home',
+    component: () => import('@/views/home/index'),
+    hidden: true,
+    children: [
+      { path: '', component: () => import('@/views/home/dashboard') },
+      { path: '/nopay', component: () => import('@/views/home/noPay') }
+    ]
+  },
+  { path: '/pay', component: () => import('@/views/pay/pay'), hidden: true },
   { path: '/login', component: () => import('@/views/login/login'), hidden: true },
   { path: '/register', component: () => import('@/views/login/register'), hidden: true },
   { path: '/index', component: () => import('@/views/index/index'), hidden: true },
+  { path: '/goodsShow', component: () => import('@/views/goods/goodsShow'), hidden: true },
   { path: '/goodsCat', component: () => import('@/views/goods/goodsCat'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
   { path: '/goodsSearch', component: () => import('@/views/goods/goodsSearch'), hidden: true },

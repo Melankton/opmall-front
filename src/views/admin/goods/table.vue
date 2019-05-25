@@ -123,7 +123,7 @@
 </template>
 
 <script>
-import { getGoodsList, upload } from '@/api/goods'
+import { getGoodsList, upload, modifyGoods, deleteGoods } from '@/api/goods'
 import { getNavList } from '@/api/index'
 import editor from '@/components/WangEditor/wangeditor'
 export default {
@@ -202,7 +202,6 @@ export default {
           goodsCats.push(goodsCat)
         }
         this.goodsCatlist = goodsCats
-        console.log(this.goodsCatlist)
       })
     },
     catchData(value) {
@@ -217,18 +216,35 @@ export default {
         this.form.image = data.url
       })
     },
-    handleChange() {
-      console.log(this.goodsCatlist)
-    },
     handleDelete(row) {
       this.dialogVisibleDelete = true
       this.form.id = row.id
+      this.$confirm('此操作将删除该商品, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteGoods(this.form)
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     },
     submitUserForm() {
       this.form.parcid = this.form.cid[0]
       this.form.childcid = this.form.cid[1]
-      console.log(this.form)
       this.dialogFormVisible = false
+      modifyGoods(this.form).then(response => {
+        if (response.status === '200') {
+          this.success('商品信息更新成功')
+        }
+      })
     },
     handleEdit(row) {
       this.dialogFormVisible = true

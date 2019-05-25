@@ -69,17 +69,57 @@
                   <el-menu-item index="9">
                     <el-popover
                       placement="top"
-                      width="600"
+                      width="500"
                       trigger="click">
-                      <el-table :data="gridData">
-                        <el-table-column width="150" property="date" label="日期"/>
-                        <el-table-column width="100" property="name" label="姓名"/>
-                        <el-table-column width="300" property="address" label="地址"/>
+                      <el-table
+                        ref="singleTable"
+                        :data="cart"
+                        highlight-current-row
+                        style="width: 100%"
+                        @current-change="handleCurrentChange">
+                        <el-table-column
+                          type="index"
+                          label="编号"
+                          width="50"/>
+                        <el-table-column
+                          property="title"
+                          label="商品名"
+                          width="150"/>
+                        <el-table-column
+                          property="num"
+                          label="数量"
+                          width="80"/>
+                        <el-table-column
+                          property="price"
+                          width="100"
+                          label="价格"/>
+                        <el-table-column
+                          fixed="right"
+                          label="操作"
+                          width="80">
+                          <template slot-scope="scope">
+                            <el-button
+                              type="text"
+                              size="small"
+                              @click.native.prevent="deleteRow(scope.$index, cart)">
+                              移除
+                            </el-button>
+                          </template>
+                        </el-table-column>
                       </el-table>
+                      <div style="margin-top: 20px">
+                        <el-button @click="cleanCart()">清空购物车</el-button>
+                        <el-button style="float: right" @click="toPay()">结账</el-button>
+                      </div>
                       <span slot="reference">购物车</span>
                     </el-popover>
                   </el-menu-item>
-                  <el-menu-item index="/login"><router-link to="/login">用户</router-link></el-menu-item>
+                  <el-submenu index="/login">
+                    <template slot="title"><router-link to="/login">用户</router-link></template>
+                    <span v-if="this.$store.getters.roles ==='user'" >
+                      <el-menu-item index="2-1" @click="signOut">注销</el-menu-item>
+                    </span>
+                  </el-submenu>
                 </el-menu>
               </div>
             </el-col>
@@ -98,39 +138,7 @@ export default {
   name: 'Header',
   data() {
     return {
-      gridData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }],
+      cart: this.$store.getters.cart,
       visible2: false,
       goodsCatlist: {},
       input: '',
@@ -144,6 +152,23 @@ export default {
     })
   },
   methods: {
+    cleanCart() {
+      this.$store.dispatch('cleanCart')
+      this.cart = this.$store.getters.cart
+    },
+    success(value) {
+      this.$notify({
+        title: '成功',
+        message: value,
+        type: 'success'
+      })
+    },
+    signOut() {
+      this.$store.dispatch('LogOut').then(() => {
+        this.$router.push({ path: this.redirect || '/index' })
+        this.success('用户注销成功!')
+      })
+    },
     search() {
       if (this.input !== '') {
         const keyword = this.input
@@ -152,6 +177,33 @@ export default {
     },
     test(goodsCatChild) {
       this.$router.push({ path: '/goodsCat', query: { goodsCatChild }})
+    },
+    toPay() {
+      if (JSON.stringify(this.$store.getters.cart).length !== 2) {
+        if (this.$store.getters.roles === 'user') {
+          this.$router.push({ path: '/pay' })
+        } else {
+          this.$router.push({ path: '/login' })
+        }
+      } else {
+        this.fail('购物车为空')
+      }
+    },
+    setCurrent(row) {
+      this.$refs.singleTable.setCurrentRow(row)
+    },
+    handleCurrentChange(val) {
+      this.currentRow = val
+    },
+    deleteRow(index, rows) {
+      this.$store.dispatch('delete', rows[index].id)
+    },
+    fail(value) {
+      this.$notify({
+        title: '失败',
+        message: value,
+        type: 'warning'
+      })
     }
   }
 }
