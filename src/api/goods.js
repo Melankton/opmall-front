@@ -69,7 +69,7 @@ export function addGoods(form) {
 }
 export function modifyGoods(form) {
   return request({
-    url: '/item/add',
+    url: '/item/modifyGoods',
     method: 'post',
     data: {
       barcode: form.barcode,
@@ -99,5 +99,15 @@ export function getGoodsById(id) {
   return request({
     url: '/item/' + id,
     method: 'get'
+  })
+}
+
+export function getHisAdd(userId) {
+  return request({
+    url: '/order/getHisAdd',
+    method: 'post',
+    data: {
+      userId: userId
+    }
   })
 }

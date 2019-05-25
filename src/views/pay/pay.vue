@@ -7,14 +7,12 @@
         <h1>支付订单</h1>
         <el-collapse>
           <el-collapse-item title="历史地址" name="2">
-            <el-radio v-model="addressHis" label="1">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念</el-radio>
-            <el-divider/>
-            <el-radio v-model="addressHis" label="2">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念</el-radio>
-            <el-divider/>
-            <el-radio v-model="addressHis" label="3">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念</el-radio>
-            <el-divider/>
-            <el-radio v-model="addressHis" label="4">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念</el-radio>
-            <el-divider/>
+            <el-radio-group v-model="addId" :change="bandAdd(addId)">
+              <div v-for="add in addressHis" :key="add.id">
+                <el-radio :label="add['id']">{{ add['address'] }}</el-radio>
+                <el-divider/>
+              </div>
+            </el-radio-group>
           </el-collapse-item>
         </el-collapse>
         <el-form ref="form" :model="form" label-width="80px" style="margin-top: 20px">
@@ -26,44 +24,24 @@
           <el-form-item label="区域">
             <v-distpicker @selected="onSelected"/>
           </el-form-item>
-          <el-form-item label="活动区域">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"/>
-              <el-option label="区域二" value="beijing"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="活动时间">
-            <el-col :span="11">
-              <el-date-picker v-model="form.date1" type="date" placeholder="选择日期" style="width: 100%;"/>
-            </el-col>
-            <el-col :span="2" class="line">-</el-col>
-            <el-col :span="11">
-              <el-time-picker v-model="form.date2" placeholder="选择时间" style="width: 100%;"/>
+          <el-form-item label="地址">
+            <el-col :span="16">
+              <el-input v-model="form.address"/>
             </el-col>
           </el-form-item>
-          <el-form-item label="即时配送">
-            <el-switch v-model="form.delivery"/>
+          <el-form-item label="邮编">
+            <el-col :span="6">
+              <el-input v-model="form.postCode"/>
+            </el-col>
           </el-form-item>
-          <el-form-item label="活动性质">
-            <el-checkbox-group v-model="form.type">
-              <el-checkbox label="美食/餐厅线上活动" name="type"/>
-              <el-checkbox label="地推活动" name="type"/>
-              <el-checkbox label="线下主题活动" name="type"/>
-              <el-checkbox label="单纯品牌曝光" name="type"/>
-            </el-checkbox-group>
-          </el-form-item>
-          <el-form-item label="特殊资源">
-            <el-radio-group v-model="form.resource">
-              <el-radio label="线上品牌商赞助"/>
-              <el-radio label="线下场地免费"/>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="活动形式">
-            <el-input v-model="form.desc" type="textarea"/>
+          <el-form-item label="手机">
+            <el-col :span="6">
+              <el-input v-model="form.phone"/>
+            </el-col>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">立即创建</el-button>
-            <el-button>取消</el-button>
+            <el-button type="primary" @click="onSubmit">提交订单</el-button>
+            <el-button><router-link to="/index">取消</router-link></el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -75,7 +53,7 @@
 <script>
 import Header from '../common/header'
 import VDistpicker from 'v-distpicker'
-
+import { getHisAdd } from '@/api/goods'
 export default {
   name: 'Pay',
   components: {
@@ -84,30 +62,59 @@ export default {
   },
   data() {
     return {
-      addressHis: '',
+      addId: '',
+      addressHis: [],
+      addDict: [],
       form: {
+        id: '',
         name: '',
         province: '',
         city: '',
         area: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        address: '',
+        postCode: '',
+        phone: ''
       }
     }
   },
+  created() {
+    getHisAdd(this.$store.getters.id).then(response => {
+      const addDict = response.data
+      this.addDict = addDict
+      for (let i = 0; i < addDict.length; i++) {
+        const addItem = addDict[i]['name'] + ' ' + addDict[i]['phone'] + ' ' + addDict[i]['province'] + addDict[i]['city'] + addDict[i]['area'] + addDict[i]['address'] + '  邮编:' + addDict[i]['postcode']
+        const item = {
+          id: addDict[i]['id'],
+          address: addItem,
+          origin: addDict[i]
+        }
+        this.addressHis.push(item)
+      }
+    })
+  },
   methods: {
+    bandAdd(id) {
+      for (let i = 0; i < this.addDict.length; i++) {
+        if (id === this.addDict[i]['id']) {
+          this.form.address = this.addDict[i]['address']
+          this.form.province = this.addDict[i]['province']
+          this.form.city = this.addDict[i]['city']
+          this.form.name = this.addDict[i]['name']
+          this.form.postCode = this.addDict[i]['postcode']
+          this.form.phone = this.addDict[i]['phone']
+          this.form.area = this.addDict[i]['area']
+          this.form.id = this.addDict[i]['id']
+          break
+        }
+      }
+    },
     onSelected(data) {
       this.form.province = data.province['value']
       this.form.city = data.city['value']
       this.form.area = data.area['value']
     },
     onSubmit() {
-      console.log(this.addressHis)
+      console.log(this.form)
     }
   }
 }

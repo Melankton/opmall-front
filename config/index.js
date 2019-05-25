@@ -20,6 +20,11 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {'/api/goods' : '/api/goods'}
       },
+      '/order': {
+        target: 'http://127.0.0.1:8888',
+        changeOrigin: true,
+        pathRewrite: {'^/order' : '/order'}
+      },
       '/item': {
         target: 'http://127.0.0.1:8888',
         changeOrigin: true,

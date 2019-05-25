@@ -17,7 +17,7 @@
                 <span style="font-size: xx-large">{{ goods.title }}</span>
               </div>
               <div class="text item">
-                <span>{{ goods.keyword }}</span>
+                <span v-for="word in goods.keyword" :key="word"><el-button type="primary" size="mini" circle>{{ word }}</el-button><el-divider direction="vertical"/></span>
               </div>
               <div class="text item">
                 <span style="font-size: large">价格: ￥{{ goods.price }}</span>
@@ -84,6 +84,9 @@ export default {
     goodsInit(id) {
       getGoodsById(id).then(response => {
         this.goods = response
+        if (this.goods.keyword !== null) {
+          this.goods.keyword = this.goods.keyword.split(' ')
+        }
       })
     }
   }
