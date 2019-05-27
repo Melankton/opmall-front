@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name:{{ name }}</div>
-    <div class="dashboard-text">roles:<span v-for="role in roles" :key="role">{{ role }}</span></div>
+    <div class="dashboard-text">用户名:{{ name }}</div>
+    <div class="dashboard-text">用户权限:<span v-for="role in roles" :key="role">{{ role }}</span></div>
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="24">
         <div class="chart-wrapper">

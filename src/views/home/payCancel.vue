@@ -25,7 +25,7 @@
       </el-table-column>
       <el-table-column class-name="status-col" label="订单状态" width="110" align="center">
         <template slot-scope="scope">
-          <el-tag >已支付</el-tag>
+          <el-tag >已完成交易</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" prop="created_at" label="编辑" width="200">
@@ -76,7 +76,7 @@
       <h5>地址:{{ address.add }}</h5>
       <div v-if="postcode !== null">
         <a :href="'https://www.baidu.com/s?wd=' + postcode" target="_blank"><h5>物流单号:{{ postcode }} (点击查看详情)</h5></a>
-        <el-button @click="confirmGoods()">确认收货</el-button>
+        <el-button @click="confirmGoods()">退货</el-button>
       </div>
 
       <span slot="footer" class="dialog-footer">
@@ -90,7 +90,7 @@
 <script>
 import { getUserOrder, getOrderItem, getOrderAdd, confirmOrder } from '@/api/goods'
 export default {
-  name: 'Paying',
+  name: 'PayCancel',
   data() {
     return {
       orderNum: '',
@@ -122,7 +122,7 @@ export default {
     },
     fetchData() {
       this.listLoading = true
-      const status = '2'
+      const status = '5'
       getUserOrder(this.$store.getters.id, this.curPage, this.curNum, status).then(response => {
         this.listLoading = false
         this.list = response.data
@@ -144,9 +144,9 @@ export default {
       this.fetchData()
     },
     confirmGoods() {
-      confirmOrder(this.orderNum, '5').then(response => {
+      confirmOrder(this.orderNum, '6').then(response => {
         if (response.status === '200') {
-          this.success('确认收货成功!')
+          this.success('申请退货成功!')
         }
       })
     },

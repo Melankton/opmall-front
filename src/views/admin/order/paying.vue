@@ -15,7 +15,12 @@
       </el-table-column>
       <el-table-column label="交易时间">
         <template slot-scope="scope">
-          {{ new Date(scope.row.createTime).toDateString() }}
+          {{ new Date(scope.row.createTime).toLocaleDateString() }}
+        </template>
+      </el-table-column>
+      <el-table-column label="用户id">
+        <template slot-scope="scope">
+          {{ scope.row.userId }}
         </template>
       </el-table-column>
       <el-table-column label="价格" width="110" align="center">
@@ -31,8 +36,13 @@
       <el-table-column align="center" prop="created_at" label="编辑" width="200">
         <template slot-scope="scope">
           <el-button
+            type="info"
             size="mini"
             @click="handleEdit(scope.row)">查看详情</el-button>
+          <el-button
+            type="success"
+            size="mini"
+            @click="handleEditExpress(scope.row)">编辑物流信息</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -84,15 +94,44 @@
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      :visible.sync="expressDialogVisible"
+      :before-close="handleClose"
+      title="编辑物流信息"
+      width="30%">
+      <el-form ref="form" :model="expressForm" label-width="80px">
+        <el-row>
+          <el-form-item label="物流公司">
+            <el-input v-model="expressForm.expressName"/>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-form-item label="物流单号">
+            <el-input v-model="expressForm.expressId"/>
+          </el-form-item>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="expressDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitExpress()">确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-import { getUserOrder, getOrderItem, getOrderAdd, confirmOrder } from '@/api/goods'
+import { getUserOrder, getOrderItem, getOrderAdd, confirmOrder, addOrderExpress } from '@/api/goods'
 export default {
   name: 'Paying',
   data() {
     return {
+      expressOrderId: '',
+      expressForm: {
+        expressName: '',
+        expressId: ''
+      },
+      expressDialogVisible: false,
       orderNum: '',
       postcode: '',
       address: {
@@ -123,7 +162,7 @@ export default {
     fetchData() {
       this.listLoading = true
       const status = '2'
-      getUserOrder(this.$store.getters.id, this.curPage, this.curNum, status).then(response => {
+      getUserOrder('', this.curPage, this.curNum, status).then(response => {
         this.listLoading = false
         this.list = response.data
       })
@@ -149,6 +188,17 @@ export default {
           this.success('确认收货成功!')
         }
       })
+    },
+    submitExpress() {
+      addOrderExpress(this.expressOrderId, this.expressForm.expressName, this.expressForm.expressId).then(response => {
+        if (response.status === '200') {
+          this.success('添加物流单号成功')
+        }
+      })
+    },
+    handleEditExpress(row) {
+      this.expressDialogVisible = true
+      this.expressOrderId = row.orderId
     },
     handleEdit(row) {
       this.orderNum = row.orderId

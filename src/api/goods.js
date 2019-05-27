@@ -190,4 +190,57 @@ export function getOrderAdd(orderId) {
     }
   })
 }
+export function confirmOrder(orderNum, status) {
+  return request({
+    url: '/order/confimGoods',
+    method: 'post',
+    data: {
+      orderNum: orderNum,
+      status: status
+    }
+  })
+}
+export function deleteAddress(addId) {
+  return request({
+    url: '/order/deleteAddress',
+    method: 'post',
+    data: {
+      addId: addId
+    }
+  })
+}
+export function getParentCat() {
+  return request({
+    url: '/item/getParentCat',
+    method: 'post',
+    data: {}
+  })
+}
 
+export function addCatChild(parentId, childName) {
+  return request({
+    url: '/item/addCatChild',
+    method: 'post',
+    data: {
+      parentId: parentId,
+      childName: childName
+    }
+  })
+}
+export function addOrderExpress(orderId, expressName, expressId) {
+  return request({
+    url: '/order/addOrderExpress',
+    method: 'post',
+    data: {
+      orderId: orderId,
+      expressName: expressName,
+      expressId: expressId
+    }
+  })
+}
+export function syncSolr() {
+  return request({
+    url: '/index/import',
+    method: 'get'
+  })
+}

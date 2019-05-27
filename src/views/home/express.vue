@@ -25,7 +25,7 @@
       </el-table-column>
       <el-table-column class-name="status-col" label="订单状态" width="110" align="center">
         <template slot-scope="scope">
-          <el-tag >已支付</el-tag>
+          <el-tag >已发货</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" prop="created_at" label="编辑" width="200">
@@ -90,7 +90,7 @@
 <script>
 import { getUserOrder, getOrderItem, getOrderAdd, confirmOrder } from '@/api/goods'
 export default {
-  name: 'Paying',
+  name: 'Express',
   data() {
     return {
       orderNum: '',
@@ -122,7 +122,7 @@ export default {
     },
     fetchData() {
       this.listLoading = true
-      const status = '2'
+      const status = '4'
       getUserOrder(this.$store.getters.id, this.curPage, this.curNum, status).then(response => {
         this.listLoading = false
         this.list = response.data

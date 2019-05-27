@@ -19,7 +19,8 @@ export function modifyUser(userInfo) {
       isadmin: userInfo.isadmin,
       username: userInfo.username,
       email: userInfo.email,
-      phone: userInfo.phone
+      phone: userInfo.phone,
+      password: userInfo.password
     }
   })
 }
@@ -42,6 +43,15 @@ export function addUser(userInfo) {
       email: userInfo.email,
       phone: userInfo.phone,
       password: userInfo.password
+    }
+  })
+}
+export function getUserInfo(userId) {
+  return request({
+    url: '/sso/user/getUserInfo',
+    method: 'post',
+    data: {
+      userId: userId
     }
   })
 }

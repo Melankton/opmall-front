@@ -43,6 +43,11 @@ module.exports = {
         target: 'http://localhost:8894',
         changeOrigin: true,
         pathRewrite: {'/search' : '/search'}
+      },
+      '/index': {
+        target: 'http://localhost:8888',
+        changeOrigin:true,
+        pathRewrite: {'/index' : '/index'}
       }
     },
 

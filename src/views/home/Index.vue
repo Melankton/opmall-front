@@ -29,6 +29,7 @@
                   <el-menu-item-group>
                     <el-menu-item index="1-1"><router-link to="/noPay">未支付</router-link></el-menu-item>
                     <el-menu-item index="1-2"><router-link to="/Paying">处理中</router-link></el-menu-item>
+                    <el-menu-item index="1-3"><router-link to="/express">已发货</router-link></el-menu-item>
                   </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="2">
@@ -37,20 +38,28 @@
                     <span>已完成订单</span>
                   </template>
                   <el-menu-item-group>
-                    <el-menu-item index="2-1">已完成订单</el-menu-item>
+                    <el-menu-item index="2-1">
+                      <router-link to="/payCancel">已完成订单</router-link>
+                    </el-menu-item>
                   </el-menu-item-group>
                 </el-submenu>
                 <el-menu-item index="3">
                   <i class="el-icon-document"/>
-                  <span slot="title">已取消订单</span>
+                  <span slot="title">
+                    <router-link to="/canceled">已取消订单</router-link>
+                  </span>
                 </el-menu-item>
                 <el-menu-item index="4">
                   <i class="el-icon-document"/>
-                  <span slot="title">个人信息</span>
+                  <span slot="title">
+                    <router-link to="/person">个人信息</router-link>
+                  </span>
                 </el-menu-item>
                 <el-menu-item index="5">
                   <i class="el-icon-setting"/>
-                  <span slot="title">收货地址</span>
+                  <span slot="title">
+                    <router-link to="/address">收货地址</router-link>
+                  </span>
                 </el-menu-item>
               </el-menu>
             </el-col>

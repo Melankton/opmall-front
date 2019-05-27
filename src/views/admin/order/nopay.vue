@@ -15,7 +15,12 @@
       </el-table-column>
       <el-table-column label="交易时间">
         <template slot-scope="scope">
-          {{ new Date(scope.row.createTime).toDateString() }}
+          {{ new Date(scope.row.createTime).toLocaleDateString() }}
+        </template>
+      </el-table-column>
+      <el-table-column label="用户id">
+        <template slot-scope="scope">
+          {{ scope.row.userId }}
         </template>
       </el-table-column>
       <el-table-column label="价格" width="110" align="center">
@@ -25,12 +30,13 @@
       </el-table-column>
       <el-table-column class-name="status-col" label="订单状态" width="110" align="center">
         <template slot-scope="scope">
-          <el-tag >已支付</el-tag>
+          <el-tag >未支付</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" prop="created_at" label="编辑" width="200">
         <template slot-scope="scope">
           <el-button
+            type="info"
             size="mini"
             @click="handleEdit(scope.row)">查看详情</el-button>
         </template>
@@ -90,7 +96,7 @@
 <script>
 import { getUserOrder, getOrderItem, getOrderAdd, confirmOrder } from '@/api/goods'
 export default {
-  name: 'Paying',
+  name: 'Nopay',
   data() {
     return {
       orderNum: '',
@@ -122,8 +128,8 @@ export default {
     },
     fetchData() {
       this.listLoading = true
-      const status = '2'
-      getUserOrder(this.$store.getters.id, this.curPage, this.curNum, status).then(response => {
+      const status = '1'
+      getUserOrder('', this.curPage, this.curNum, status).then(response => {
         this.listLoading = false
         this.list = response.data
       })
