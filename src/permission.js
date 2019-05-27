@@ -11,7 +11,7 @@ const whiteList = ['/login', '/new', '/register', '/index', '/home', '/goodsCat'
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (getToken()) {
-    if (to.path === '/login' || to.path === '/dashboard') {
+    if (to.path === '/login') {
       if (store.getters.roles === 'admin') {
         next({ path: '/' })
       } else {

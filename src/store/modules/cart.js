@@ -1,15 +1,18 @@
 const cart = {
   state: {
-    cart: []
+    cart: [],
+    url: ''
   },
   mutations: {
+    ADD_URL: (state, item) => {
+      state.url = item
+    },
     ADD_CART: (state, item) => {
       const p = []
       for (let i = 0; i < state.cart.length; i++) {
         if (item.id === state.cart[i].id) {
           p.push(item)
           state.cart[i].num = state.cart[i].num + item.num
-          state.cart[i].price = state.cart[i].price + item.price
         }
       }
       if (p.length === 0) {
@@ -28,6 +31,11 @@ const cart = {
     }
   },
   actions: {
+    addUrl({ commit }, item) {
+      return new Promise(resolve => {
+        commit('ADD_URL', item)
+      })
+    },
     add({ commit }, item) {
       return new Promise(resolve => {
         commit('ADD_CART', item)

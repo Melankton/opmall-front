@@ -69,7 +69,7 @@ export default {
         id: id,
         title: title,
         price: price,
-        num: 1
+        num: this.num
       }
       this.$store.dispatch('add', item)
       this.success('添加到购物车成功')

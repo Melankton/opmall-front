@@ -12,7 +12,7 @@
                 default-active="1"
                 open="1"
                 class="el-menu-vertical-demo"
-                background-color="#f1f1f1"
+                background-color="#ffffff"
                 text-color="#909399"
                 active-text-color="#ec1f23"
                 @open="handleOpen"
@@ -28,17 +28,16 @@
                   </template>
                   <el-menu-item-group>
                     <el-menu-item index="1-1"><router-link to="/noPay">未支付</router-link></el-menu-item>
-                    <el-menu-item index="1-2">处理中</el-menu-item>
+                    <el-menu-item index="1-2"><router-link to="/Paying">处理中</router-link></el-menu-item>
                   </el-menu-item-group>
                 </el-submenu>
                 <el-submenu index="2">
                   <template slot="title">
                     <i class="el-icon-location"/>
-                    <span>所有订单</span>
+                    <span>已完成订单</span>
                   </template>
                   <el-menu-item-group>
-                    <el-menu-item index="2-1">所有订单</el-menu-item>
-                    <el-menu-item index="2-2">最近三个月</el-menu-item>
+                    <el-menu-item index="2-1">已完成订单</el-menu-item>
                   </el-menu-item-group>
                 </el-submenu>
                 <el-menu-item index="3">
@@ -55,8 +54,8 @@
                 </el-menu-item>
               </el-menu>
             </el-col>
-            <el-col :span="1">&nbsp;</el-col>
-            <el-col :span="19">
+            <el-col :span="0">&nbsp;</el-col>
+            <el-col :span="20">
               <router-view/>
             </el-col>
           </el-row>
@@ -92,6 +91,6 @@ export default {
     min-height: 1px;
   }
 .left-nav {
-  background-color: #f1f1f1;
+  background-color: #ffffff;
 }
 </style>

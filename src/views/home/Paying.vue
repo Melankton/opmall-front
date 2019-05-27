@@ -25,7 +25,7 @@
       </el-table-column>
       <el-table-column class-name="status-col" label="订单状态" width="110" align="center">
         <template slot-scope="scope">
-          <el-tag @click="noPay(scope.row)">未支付</el-tag>
+          <el-tag >已支付</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" prop="created_at" label="编辑" width="200">
@@ -74,78 +74,31 @@
       <h5>收货人:{{ address.name }}</h5>
       <h5>手机:{{ address.phone }}</h5>
       <h5>地址:{{ address.add }}</h5>
+      <div v-if="postcode !== null">
+        <a :href="'https://www.baidu.com/s?wd=' + postcode" target="_blank"><h5>物流单号:{{ postcode }} (点击查看详情)</h5></a>
+        <el-button >确认收货</el-button>
+      </div>
+
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog
-      :visible.sync="dialogVisible"
-      :before-close="handleClose"
-      title="订单详情"
-      width="40%">
-      <h3>商品列表</h3>
-      <el-table
-        :data="orderItemList"
-        style="width: 100%">
-        <el-table-column
-          prop="goodstitle"
-          label="商品名"
-          width="180"/>
-        <el-table-column
-          prop="goodsprice"
-          label="价格"
-          width="180"/>
-        <el-table-column
-          prop="goodsnum"
-          label="数量"/>
-        <el-table-column
-          prop="goodstotalprice"
-          label="合计"/>
-      </el-table>
-      <h3>收货信息</h3>
-      <h5>收货人:{{ address.name }}</h5>
-      <h5>手机:{{ address.phone }}</h5>
-      <h5>地址:{{ address.add }}</h5>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
-    <div>
-      <el-dialog :visible.sync="outerVisible" title="是否立即支付">
-        <el-dialog
-          :visible.sync="innerVisible"
-          width="30%"
-          title="是否支付成功？"
-          append-to-body>
-          <el-button @click="outerVisible = false;innerVisible = false">取 消</el-button>
-          <el-button type="primary" @click="paySuccess()">已支付</el-button>
-        </el-dialog>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="outerVisible = false">取 消</el-button>
-          <el-button type="primary" @click="payNow()">立即支付</el-button>
-        </div>
-      </el-dialog>
-    </div>
   </div>
 </template>
 
 <script>
-import { getUserOrder, getOrderItem, getOrderAdd, queryOrder, createPayUrl } from '@/api/goods'
+import { getUserOrder, getOrderItem, getOrderAdd } from '@/api/goods'
 export default {
-  name: 'NoPay',
+  name: 'Paying',
   data() {
     return {
-      outerVisible: false,
-      innerVisible: false,
+      postcode: '',
       address: {
         name: '',
         phone: '',
         add: ''
       },
-      payUrl: '',
-      payRow: null,
       dialogVisible: false,
       currentPage4: 1,
       curNum: 10,
@@ -161,7 +114,7 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      const status = '1'
+      const status = '2'
       getUserOrder(this.$store.getters.id, this.curPage, this.curNum, status).then(response => {
         this.listLoading = false
         this.list = response.data
@@ -182,29 +135,8 @@ export default {
       this.curPage = val
       this.fetchData()
     },
-    paySuccess() {
-      queryOrder(this.payRow.orderId).then(response => {
-        console.log(response)
-        if (response.status === '200') {
-          this.$router.push({ path: this.redirect || '/login' })
-        } else {
-          alert('支付失败！')
-        }
-      })
-    },
-    noPay(row) {
-      this.outerVisible = true
-      createPayUrl(row.payment, row.orderId).then(response => {
-        this.payUrl = response.status
-      })
-      this.payRow = row
-    },
-    payNow() {
-      this.innerVisible = true
-      this.$store.dispatch('addUrl', this.payUrl)
-      window.open('/#/payPage', '_blank')
-    },
     handleEdit(row) {
+      this.postcode = row.shippingCode
       this.dialogVisible = true
       getOrderItem(row.orderId).then(response => {
         this.orderItemList = response.data
@@ -214,16 +146,14 @@ export default {
         this.address.name = addData.name
         this.address.phone = addData.phone
         this.address.add = addData.province + addData.city + addData.area + addData.address
-        console.log(addData)
       })
-      console.log(row)
     }
   }
 }
 </script>
 
 <style scoped>
-html {
-  background-color: #f1f1f1;
-}
+  html {
+    background-color: #f1f1f1;
+  }
 </style>

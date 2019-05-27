@@ -92,7 +92,7 @@
                         <el-table-column
                           property="price"
                           width="100"
-                          label="价格"/>
+                          label="单价"/>
                         <el-table-column
                           fixed="right"
                           label="操作"
