@@ -187,6 +187,21 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/comment',
+    component: Layout,
+    redirect: '/comment/comment',
+    name: 'Comment',
+    meta: { title: '评论管理', icon: 'goods' },
+    children: [
+      {
+        path: 'comment',
+        name: 'comment',
+        component: () => import('@/views/admin/comment/comment'),
+        meta: { title: '评论审核', icon: 'table' }
+      }
+    ]
+  },
+  {
     path: 'solr',
     component: Layout,
     children: [

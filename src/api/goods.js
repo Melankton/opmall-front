@@ -244,3 +244,45 @@ export function syncSolr() {
     method: 'get'
   })
 }
+export function commentGoods(form) {
+  return request({
+    url: '/order/addComment',
+    method: 'post',
+    data: {
+      goodsId: form.goodsId,
+      userId: form.userId,
+      comment: form.comment
+    }
+  })
+}
+
+export function getCommentList(form) {
+  return request({
+    url: '/order/getCommentList',
+    method: 'post',
+    data: {
+      commentStatus: form.commentStatus,
+      page: form.page,
+      rows: form.rows
+    }
+  })
+}
+export function changeCommentStatus(form) {
+  return request({
+    url: '/order/changeCommentStatus',
+    method: 'post',
+    data: {
+      commentId: form.commentId,
+      commentStatus: form.status
+    }
+  })
+}
+export function getDashNotifyCount(notifyStatus) {
+  return request({
+    url: '/order/getDashNotifyCount',
+    method: 'post',
+    data: {
+      notifyStatus: notifyStatus
+    }
+  })
+}

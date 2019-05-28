@@ -68,7 +68,16 @@
           label="数量"/>
         <el-table-column
           prop="goodstotalprice"
-          label="合计"/>
+          label="合计">
+          <template slot-scope="scope">
+            <el-button
+              type="text"
+              @click.native.prevent="comment(scope.row)">
+              评价商品
+            </el-button>
+          </template>
+        </el-table-column>
+
       </el-table>
       <h3>收货信息</h3>
       <h5>收货人:{{ address.name }}</h5>
@@ -84,15 +93,38 @@
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog
+      :visible.sync="CommentDialogVisible"
+      :before-close="handleClose"
+      title="商品评价"
+      width="30%">
+      <h4>发表评价</h4>
+      <el-input
+        :rows="2"
+        v-model="commentForm.comment"
+        type="textarea"
+        placeholder="请输入内容"/>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="CommentDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitComment">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getUserOrder, getOrderItem, getOrderAdd, confirmOrder } from '@/api/goods'
+import { getUserOrder, getOrderItem, getOrderAdd, commentGoods, confirmOrder } from '@/api/goods'
 export default {
   name: 'PayCancel',
   data() {
     return {
+      CommentDialogVisible: false,
+      commentForm: {
+        userId: '',
+        goodsId: '',
+        comment: ''
+      },
+      commentDetail: '',
       orderNum: '',
       postcode: '',
       address: {
@@ -138,6 +170,20 @@ export default {
     handleSizeChange(val) {
       this.curNum = val
       this.fetchData()
+    },
+    comment(row) {
+      this.CommentDialogVisible = true
+      this.commentForm.userId = this.$store.getters.id
+      this.commentForm.goodsId = row.goodsid
+    },
+    submitComment() {
+      commentGoods(this.commentForm).then(response => {
+        if (response.status === '200') {
+          this.success('评论成功，将在审核后显示')
+        }
+      })
+      this.CommentDialogVisible = false
+      console.log(this.commentForm)
     },
     handleCurrentChange(val) {
       this.curPage = val
