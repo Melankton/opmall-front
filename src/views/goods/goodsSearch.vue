@@ -11,7 +11,7 @@
               <div v-for="goodsCat in goodsCats" :key="goodsCat.text" class="good-item">
                 <div>
                   <div class="good-img">
-                    <router-link :to="'goodsDetails?productId='+ goodsCat.id">
+                    <router-link :to="'goodsShow?goodsId='+ goodsCat.id">
                       <img :src="goodsCat.image" :alt="goodsCat.title">
                     </router-link>
                   </div>
@@ -19,7 +19,7 @@
                   <h3 class="sub-title ellipsis">{{ goodsCat.keyword }}</h3>
                   <div class="good-price pr">
                     <div class="ds pa">
-                      <router-link :to="'goodsDetails?productId='+goodsCat.id">
+                      <router-link :to="'goodsShow?goodsId='+goodsCat.id">
                         <el-button type="primary" size="mini" style="margin: 15px" >查看详情</el-button>
                       </router-link>
                       <el-button type="primary" size="mini" icon="el-icon-shopping-cart" @click="addCart(goodsCat.id,goodsCat.title,goodsCat.price)">加入购物车</el-button>

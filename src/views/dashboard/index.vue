@@ -10,7 +10,7 @@
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12">
         <div class="chart-wrapper">
-          <RaddarChart/>
+          <BarChart/>
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="12">
@@ -24,16 +24,18 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import BarChart from '@/components/PanelGroup/BarChart'
 import PanelGroup from '../../components/PanelGroup/PanelGroup'
 import RaddarChart from '../../components/PanelGroup/RaddarChart'
 import PieChart from '../../components/PanelGroup/PieChart'
 export default {
   name: 'Dashboard',
-  components: { PanelGroup, RaddarChart, PieChart },
+  components: { PanelGroup, RaddarChart, PieChart, BarChart },
   component: {
     PanelGroup,
     RaddarChart,
-    PieChart
+    PieChart,
+    BarChart
   },
   computed: {
     ...mapGetters([

@@ -14,7 +14,7 @@
           <section class="w clearfix">
             <y-shelf title="热门商品">
               <div slot="content" class="hot" >
-                <div v-for="goodsCat in goodsCats" :key="goodsCat.text" class="good-item">
+                <div v-for="goodsCat in goodsHot" :key="goodsCat.text" class="good-item">
                   <div>
                     <div class="good-img">
                       <router-link :to="'goodsShow?goodsId='+ goodsCat.id">
@@ -101,12 +101,18 @@ export default {
         'https://image01.oneplus.cn/shop/201901/25/796/dddc1c2ac1fac2d70ea9d0472fdb6d65.jpg',
         'https://resource.smartisan.com/resource/2/2240X1108R1web1.png?x-oss-process=image/format,jpg/quality,Q_100'
       ],
-      goodsCats: ''
+      goodsCats: '',
+      goodsCatlist: '',
+      goodsHot: '',
+      catRand: []
     }
   },
   mounted() {
-    getGoodsByCatId(1195, 8, 1).then(response => {
+    getGoodsByCatId(1199, 8, 1).then(response => {
       this.goodsCats = response.data
+    })
+    getGoodsByCatId(1203, 8, 1).then(response => {
+      this.goodsHot = response.data
     })
   },
   methods: {

@@ -40,12 +40,25 @@
         </el-row>
       </el-col>
     </el-row>
-  </div>
+    <el-row :gutter="0" style="margin-top: 100px">
+      <el-col :sm="6" :md="6" :lg="6" :xl="6"><div class="grid-content bg-purple"/></el-col>
+      <el-col :xs="24" :sm="24" :md="24" :lg="16" :xl="16">
+        <h3>商品评价</h3>
+        <div>
+          <el-divider content-position="left">吃瓜群众 时间:{{ new Date().toLocaleDateString() }}</el-divider>
+          <span>颜色真的太美了，很低调不张扬，本来以为这个造型很难看，实际上用起来观感还不错咧</span>
+          <div v-for="com in comment" :key="com.id">
+            <el-divider content-position="left">用户{{ com.user }} 时间:{{ new Date(com.created).toLocaleDateString() }}</el-divider>
+            <span>{{ com.comment }}</span>
+          </div>
+        </div>
+      </el-col>
+  </el-row></div>
 </template>
 
 <script>
 import Header from '@/views/common/header'
-import { getGoodsById } from '@/api/goods'
+import { getGoodsById, getCommentById } from '@/api/goods'
 export default {
   name: 'GoodsShow',
   components: {
@@ -56,7 +69,8 @@ export default {
       goods: {
         id: ''
       },
-      num: 1
+      num: 1,
+      comment: ''
     }
   },
   mounted() {
@@ -87,6 +101,9 @@ export default {
         if (this.goods.keyword !== null) {
           this.goods.keyword = this.goods.keyword.split(' ')
         }
+      })
+      getCommentById(id).then(response => {
+        this.comment = response.data
       })
     }
   }

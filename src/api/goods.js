@@ -286,3 +286,26 @@ export function getDashNotifyCount(notifyStatus) {
     }
   })
 }
+export function getCommentById(id) {
+  return request({
+    url: '/order/getCommentById',
+    method: 'post',
+    data: {
+      id: id
+    }
+  })
+}
+export function getGoodsCountInit() {
+  return request({
+    url: '/order/getGoodsCountInit',
+    method: 'post',
+    data: {}
+  })
+}
+export function getOrderCountInit() {
+  return request({
+    url: '/order/getOrderCountInit',
+    method: 'post',
+    data: {}
+  })
+}

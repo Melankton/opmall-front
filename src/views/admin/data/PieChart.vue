@@ -75,9 +75,9 @@ export default {
             data: [
               { value: this.itemData[0], name: '未付款' },
               { value: this.itemData[1], name: '待发货' },
-              { value: this.itemData[2], name: '已发货' },
-              { value: this.itemData[3], name: '已完成' },
-              { value: this.itemData[4], name: '已取消' }
+              { value: this.itemData[2], name: '已完成' },
+              { value: this.itemData[3], name: '已取消' },
+              { value: this.itemData[4], name: '已发货' }
             ],
             animationEasing: 'cubicInOut',
             animationDuration: 2600

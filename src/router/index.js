@@ -58,6 +58,18 @@ export const constantRouterMap = [
     }]
   },
   {
+    path: '/notify',
+    component: Layout,
+    children: [
+      {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: () => import('@/views/dashboard/index'),
+        meta: { title: '用户中心', icon: 'table' }
+      }
+    ]
+  },
+  {
     path: '/user',
     component: Layout,
     redirect: '/user/table',
@@ -117,33 +129,6 @@ export const constantRouterMap = [
         name: 'goodsAdd',
         component: () => import('@/views/admin/goods/add'),
         meta: { title: '商品添加', icon: 'tree' }
-      }
-    ]
-  },
-  {
-    path: '/data',
-    component: Layout,
-    redirect: '/data/goods',
-    name: 'Data',
-    meta: { title: '数据统计', icon: 'tree' },
-    children: [
-      {
-        path: 'goods',
-        name: 'goods',
-        component: () => import('@/views/admin/data/goods'),
-        meta: { title: '商品统计', icon: 'table' }
-      },
-      {
-        path: 'order',
-        name: 'order',
-        component: () => import('@/views/admin/data/order'),
-        meta: { title: '订单统计', icon: 'tree' }
-      },
-      {
-        path: 'user',
-        name: 'user',
-        component: () => import('@/views/admin/data/user'),
-        meta: { title: '用户统计', icon: 'tree' }
       }
     ]
   },
